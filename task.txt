@@ -1,0 +1,9 @@
+finish the logger - store az, el
+
+finish the main loop
+
+make the tracking threaded
+
+update the TLE data - check when was the file last updated (e.g. every day)
+
+implement the motors library
