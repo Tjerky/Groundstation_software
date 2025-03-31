@@ -1,0 +1,1 @@
+groundstation_location = (51.446, 5.485, 0)
