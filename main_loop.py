@@ -57,7 +57,11 @@ while True:
 
         elif 'calibrate' in task:
             # do the calibration
-            pass
+            while now < begin:
+                now = datetime.now(tz=UTC)
+
+            stepper_az.do_homing()
+            stepper_el.do_homing()
 
         else:
             raise ValueError('Unknown task in que')
