@@ -118,7 +118,7 @@ def decceleration_path(coef, te, t0, acc):
     return path, te+dt, xe
 
 def generate_full_trajectory(satellite, time):
-    t, az, el = find_next_orbit(satellite, time, 1, 'tle_data/Delfi-N3xt.txt')
+    t, az, el = find_next_orbit(satellite, time, 1, 'tle.txt')
 
     az_path, az_coef = fit_trajectory(t, az, 4)
     el_path, el_coef = fit_trajectory(t, el, 4)
@@ -143,38 +143,3 @@ def generate_full_trajectory(satellite, time):
                           [te_el_deceleration, 0]]
 
     return full_az_trajectory, full_el_trajectory
-
-if __name__ == '__main__':
-    trajectory, _ = find_next_orbit('Delfi-N3xt', 1, 'tle_data/Delfi-N3xt.txt')
-
-    import matplotlib.pyplot as plt
-
-    plt.plot(np.array(trajectory).T[0, ::10], np.array(trajectory).T[1, ::10], 'o')
-
-    t0 = trajectory[0][0]
-    te = trajectory[-1][0]
-
-    main_path, coef = fit_trajectory(np.array(trajectory).T[0], np.array(trajectory).T[1], 4)
-
-    t = np.linspace(trajectory[0][0], trajectory[-1][0], 100)
-    plt.plot(t, main_path(t))
-
-    acc_path, tbegin, _ = acceleration_path(coef, t0, 0.001)
-
-    t = np.linspace(tbegin, t0, 100)
-    plt.plot(t, acc_path(t))
-
-    decc_path, tend, _ = decceleration_path(coef, te, t0, 0.001)
-
-    t = np.linspace(te, tend, 100)
-    plt.plot(t, decc_path(t))
-
-    plt.xlabel('time (s)')
-    plt.ylabel('azimuthal angle (degrees)')
-
-    plt.legend(['satellite orbit', 'main path antenna',
-                'acceleration path antenna',
-                'decceleration path antenna'])
-
-    plt.show()
-    

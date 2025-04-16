@@ -55,7 +55,6 @@ while True:
             az_trace_thread.join()
             el_trace_thread.join()
 
-
         elif 'calibrate' in task:
             # do the calibration
             pass
