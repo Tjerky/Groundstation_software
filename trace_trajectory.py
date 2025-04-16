@@ -21,11 +21,22 @@ def trace_trajectory(trajectory, microstep, make_step):
     v = 0
     a = 0
 
+    current_pos = trajectory[0][1](trajectory[0][0])
+
     while time() < trajectory[0][0]:
         pass
 
     for i in range(len(trajectory) - 1):
-        trace_path(trajectory[i][1], trajectory[i][1], trajectory[i+1][0], microstep, make_step)
+        current_pos = trace_path(trajectory[i][1], current_pos, trajectory[i+1][0], microstep, make_step)
+
+def generate_make_step(stepper):
+    def make_step(direction):
+        if stepper._direction != direction:
+            stepper.set_direction_pin(direction)
+
+        stepper.make_a_step()
+
+    return make_step
 
 if __name__ == '__main__':
     steps = []

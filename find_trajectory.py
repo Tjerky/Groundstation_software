@@ -2,7 +2,7 @@ from pyorbital.orbital import Orbital
 from datetime import datetime
 from datetime import timedelta
 import numpy as np
-from groundstation_location import groundstation_location
+from parameters import groundstation_location
 
 def find_next_orbit(satellite, dt, time=datetime.utcnow(), file=None):
     cube = Orbital(satellite, file)

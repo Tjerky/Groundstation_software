@@ -1,7 +1,7 @@
 import pytz
 from pyorbital.orbital import Orbital
 from datetime import datetime, timedelta
-from groundstation_location import groundstation_location
+from parameters import groundstation_location
 
 def find_next_pass(satellite, time=datetime.utcnow(), file=None):
     cube = Orbital(satellite, 'tle_data/Delfi-N3xt.txt')
