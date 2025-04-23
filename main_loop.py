@@ -3,11 +3,13 @@ from trace_trajectory import *
 from que import read_next_command
 from pytz import UTC
 from datetime import datetime, timedelta
-from parameters import interval, microstep
+from parameters import *
 from cl57t_raspberry_pi_stepper_drive.CL57TStepperDriver import *
 from threading import Thread
 from time import sleep
+from logger import get_logger
 
+logger = get_logger()
 
 dt = timedelta(seconds=interval)
 
@@ -35,6 +37,8 @@ while True:
             satellite = task[5:]
             az_trajectory, el_trajectory = generate_full_trajectory(satellite, now)
 
+            logger.info(f"Begin to track satellite {satellite}")
+
             # prepare the stepper motors to go to the starting positions
             begin_az = az_trajectory[0][1](az_trajectory[0][0])
             begin_el = el_trajectory[0][1](el_trajectory[0][0])
@@ -46,8 +50,8 @@ while True:
             stepper_el.wait_until_steps_done()
 
             # Execute the task, waiting is included in trace_trajectory
-            az_trace_thread = Thread(target=trace_trajectory, args=(az_trajectory, microstep, make_az_step))
-            el_trace_thread = Thread(target=trace_trajectory, args=(el_trajectory, microstep, make_el_step))
+            az_trace_thread = Thread(target=trace_trajectory, args=(az_trajectory, microstep, make_az_step, Direction.AZ))
+            el_trace_thread = Thread(target=trace_trajectory, args=(el_trajectory, microstep, make_el_step, Direction.EL))
 
             az_trace_thread.start()
             el_trace_thread.start()
@@ -60,8 +64,10 @@ while True:
             while now < begin:
                 now = datetime.now(tz=UTC)
 
+            logger.info("Starting calibration")
             stepper_az.do_homing()
             stepper_el.do_homing()
+            logger.info("The antenna has been calibrated")
 
         else:
             raise ValueError('Unknown task in que')

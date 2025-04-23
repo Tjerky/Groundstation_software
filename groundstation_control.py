@@ -1,5 +1,8 @@
 from que import *
+from logger import get_logger
 import pytz
+
+logger = get_logger()
 
 possible_commands = ('list', 'add', 'delete', 'exit')
 
@@ -14,6 +17,7 @@ while True:
 
         try:
             delete_command(int(index))
+            logger.info(f"Deleted task {index}")
         except ValueError:
             print('Index should be an integer')
 
@@ -34,6 +38,7 @@ while True:
             command = f'track {satellite}'
 
             add_command(begin, end, command)
+            logger.info(f"Added {satellite} to be tracked at {begin}")
 
         elif task == 'calibrate':
             begin = input('When do you want to start calibrating? (YYYY-MM-DD hh:mm:ss): ')
@@ -48,6 +53,7 @@ while True:
             command = 'calibrate'
 
             add_command(begin, end, command)
+            logger.info(f"Callibrating at {begin}")
         else:
             print('Please enter a valid task.')
 
