@@ -15,7 +15,6 @@ logger = get_logger()
 dt = timedelta(seconds=interval)
 
 last_updated = datetime.min
-one_day = timedelta(days=1)
 
 stepper_az = CL57StepperDriver(pin_en=16, pin_step=13, pin_dir=5, pin_homing_sensor=21,
                      microstepping_resolution=microstep)
@@ -32,7 +31,7 @@ make_el_step = generate_make_step(stepper_el)
 while True:
     now = datetime.now(tz=UTC)
 
-    if last_updated - now > one_day:
+    if last_updated - now > timedelta(days=update_time):
         update_tle()
         last_updated = now
 
