@@ -1,4 +1,7 @@
 import requests
+from logger import get_logger
+
+logger = get_logger()
 
 sources = [
     "http://www.celestrak.com/NORAD/elements/cubesat.txt",
@@ -18,3 +21,4 @@ with open(file, 'w') as f:
         print(f'from {source} [done]')
 
 print(f'Updated file: {file}')
+logger.info('Updated TLE data')

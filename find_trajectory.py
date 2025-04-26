@@ -129,7 +129,7 @@ def generate_full_trajectory(satellite, time):
     az_acceleration, t0_az_acceleration, az_0 = acceleration_path(az_coef, t0_track, 1)
     el_acceleration, t0_el_acceleration, el_0 = acceleration_path(el_coef, t0_track, 1)
 
-    az_deceleration, te_az_deceleration, az_e = acceleration_path(az_coef, te_track, 1) # why use acc path?
+    az_deceleration, te_az_deceleration, az_e = acceleration_path(az_coef, te_track, 1)
     el_deceleration, te_el_deceleration, el_e = acceleration_path(el_coef, te_track, 1)
 
     full_az_trajectory = [[t0_az_acceleration, az_acceleration],

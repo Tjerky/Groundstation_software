@@ -7,3 +7,16 @@ make the tracking threaded
 update the TLE data - check when was the file last updated (e.g. every day)
 
 implement the motors library
+
+
+Questions?
+
+what if a tracking task is scheduled for 3pm but the satellite will be over the horizon at 5pm, and afterwards
+a calibration is scheduled for 4pm. will the calibration task be executed?
+
+should we add a task to track a satellite until it is manually stopped?
+
+we could make a task be immediately executed by typing 'now'
+e.g. When do you want to start calibrating? (YYYY-MM-DD hh:mm:ss): now
+
+add and delete satellites in the database (by NORAD ID) from the console

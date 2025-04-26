@@ -57,6 +57,3 @@ if __name__ == '__main__':
     trace_trajectory(trajectory, 10000, make_step)
     print(steps)
 
-
-
-

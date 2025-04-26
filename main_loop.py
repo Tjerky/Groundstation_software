@@ -59,6 +59,8 @@ while True:
             az_trace_thread.join()
             el_trace_thread.join()
 
+            logger.info(f"Satellite {satellite} has been successfully tracked")
+
         elif 'calibrate' in task:
             # do the calibration
             while now < begin:
@@ -70,6 +72,7 @@ while True:
             logger.info("The antenna has been calibrated")
 
         else:
-            raise ValueError('Unknown task in que')
+            logger.info(f"Unkown task in que: {task}")
+            #raise ValueError('Unknown task in que')
 
     sleep(5)

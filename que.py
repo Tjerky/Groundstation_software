@@ -2,6 +2,9 @@ import pytz
 from pyorbital.orbital import Orbital
 from datetime import datetime, timedelta
 from parameters import groundstation_location
+from logger import get_logger
+
+logger = get_logger()
 
 def find_next_pass(satellite, time=datetime.utcnow(), file=None):
     cube = Orbital(satellite, 'tle_data/Delfi-N3xt.txt')
@@ -66,7 +69,9 @@ def add_command(begin, end, command):
     elif previous < begin:
         que.append(f'{begin};{end};{command};\n')
     else:
-        raise BaseException('Command could not be added to que, because another command is already added in that time.')
+        logger.info('Command could not be added to que, because another command is already added in that time.')
+        print('Command could not be added to que, because another command is already added in that time.')
+        #raise BaseException('Command could not be added to que, because another command is already added in that time.')
 
     with open('que.txt', 'w') as f:
         f.writelines(que)
@@ -105,6 +110,12 @@ def delete_command(i):
 
     with open('que.txt', 'w') as f:
         f.writelines(que)
+
+def get_command(i):
+    with open('que.txt', 'r') as f:
+        que = f.readlines()
+    
+    return que[i]
 
 def list_que():
     with open('que.txt', 'r') as f:

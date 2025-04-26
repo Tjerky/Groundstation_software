@@ -11,13 +11,14 @@ while True:
 
     if task == 'list':
         list_que()
+        logger.info("Listing the tasks...")
 
     elif task == 'delete':
         index = input('Enter task index to delete: ')
 
         try:
             delete_command(int(index))
-            logger.info(f"Deleted task {index}")
+            logger.info(f'Deleted task: \n\t{get_command(index)}')
         except ValueError:
             print('Index should be an integer')
 
@@ -38,7 +39,7 @@ while True:
             command = f'track {satellite}'
 
             add_command(begin, end, command)
-            logger.info(f"Added {satellite} to be tracked at {begin}")
+            logger.info(f'Scheduled tracking of {satellite} to begin at {begin}.')
 
         elif task == 'calibrate':
             begin = input('When do you want to start calibrating? (YYYY-MM-DD hh:mm:ss): ')
@@ -53,7 +54,7 @@ while True:
             command = 'calibrate'
 
             add_command(begin, end, command)
-            logger.info(f"Callibrating at {begin}")
+            logger.info(f"Scheduled calibration at {begin}")
         else:
             print('Please enter a valid task.')
 
