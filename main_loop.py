@@ -11,6 +11,8 @@ from logger import get_logger
 from update_tle_data import update_tle
 
 logger = get_logger()
+logger.info('Program started')
+logger.info('Tracking satellites: ...')
 
 dt = timedelta(seconds=interval)
 
@@ -31,7 +33,7 @@ make_el_step = generate_make_step(stepper_el)
 while True:
     now = datetime.now(tz=UTC)
 
-    if last_updated - now > timedelta(days=update_time):
+    if now - last_updated > timedelta(days=update_time):
         update_tle()
         last_updated = now
 

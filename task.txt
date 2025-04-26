@@ -12,7 +12,8 @@ implement the motors library
 Questions?
 
 what if a tracking task is scheduled for 3pm but the satellite will be over the horizon at 5pm, and afterwards
-a calibration is scheduled for 4pm. will the calibration task be executed?
+a calibration is scheduled for 4pm. will the calibration task be executed? (a solution would be to store the 
+time when the satellite will be over the horizon)
 
 should we add a task to track a satellite until it is manually stopped?
 
