@@ -8,10 +8,14 @@ from cl57t_raspberry_pi_stepper_drive.CL57TStepperDriver import *
 from threading import Thread
 from time import sleep
 from logger import get_logger
+from update_tle_data import update_tle
 
 logger = get_logger()
 
 dt = timedelta(seconds=interval)
+
+last_updated = datetime.min
+one_day = timedelta(days=1)
 
 stepper_az = CL57StepperDriver(pin_en=16, pin_step=13, pin_dir=5, pin_homing_sensor=21,
                      microstepping_resolution=microstep)
@@ -27,6 +31,10 @@ make_el_step = generate_make_step(stepper_el)
 
 while True:
     now = datetime.now(tz=UTC)
+
+    if last_updated - now > one_day:
+        update_tle()
+        last_updated = now
 
     begin, end, task = read_next_command()
 

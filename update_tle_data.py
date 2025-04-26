@@ -11,14 +11,18 @@ sources = [
 
 file = 'tle.txt'
 
-print('Retrieving data:')
-with open(file, 'w') as f:
-    for source in sources:
-        r = requests.get(source)
+def update_tle():
+    print('Retrieving data:')
+    with open(file, 'w') as f:
+        for source in sources:
+            r = requests.get(source)
 
-        f.write(r.text.replace('\r', ''))
+            f.write(r.text.replace('\r', ''))
 
-        print(f'from {source} [done]')
+            print(f'from {source} [done]')
 
-print(f'Updated file: {file}')
-logger.info('Updated TLE data')
+    print(f'Updated file: {file}')
+    logger.info('Updated TLE data')
+
+if __name__ == "__name__":
+    update_tle()

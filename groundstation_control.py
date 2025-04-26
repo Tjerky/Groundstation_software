@@ -26,7 +26,7 @@ while True:
         task = input('What task do you want to add (track/calibrate): ')
 
         if task == 'track':
-            satellite = input('What satellite do you want to track: ')
+            satellite = input('What satellite do you want to track: ').strip()
 
             begin = input('From what datetime should we look for the next pass? (YYYY-MM-DD hh:mm:ss) : ')
 

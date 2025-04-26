@@ -11,7 +11,6 @@ def trace_path(path, current_pos, t_end, microstep, make_step, dir):
     degrees_per_step = 360/microstep
 
     while t < t_end:
-        #TODO 
         logger.info(f"Current position ({dir.name}) - {current_pos}")
 
         t = time()
