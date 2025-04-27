@@ -4,9 +4,7 @@ from parameters import tle_data_file, satellites_file
 
 logger = get_logger()
 
-file = tle_data_file
-
-def load_satellite_tle(satellite_name, file_path=satellites_file):
+def load_satellite_tle(satellite_name, file_path=tle_data_file):
     with open(file_path, 'r') as f:
         lines = f.readlines()
 
@@ -29,7 +27,7 @@ def update_tle():
     with open(satellites_file, 'r') as f:
         lines = f.readlines()
 
-    with open(file, 'w') as f:
+    with open(tle_data_file, 'w') as f:
         for i in range(len(lines)):
             norad_id = lines[i].strip()
             query = f'https://celestrak.org/NORAD/elements/gp.php?CATNR={norad_id}&FORMAT=TLE'
@@ -40,7 +38,7 @@ def update_tle():
 
             print(f'update {query} [done]')
 
-    print(f'Updated file: {file}')
+    print(f'Updated file: {tle_data_file}')
     logger.info('Updated TLE data')
 
 if __name__ == "__main__":

@@ -2,10 +2,12 @@ from pyorbital.orbital import Orbital
 from datetime import datetime
 from datetime import timedelta
 import numpy as np
-from parameters import groundstation_location
+from parameters import groundstation_location, tle_data_file
+from update_tle_data import load_satellite_tle
 
 def find_next_orbit(satellite, dt, time=datetime.utcnow(), file=None):
-    cube = Orbital(satellite, file)
+    _, line1, line2 = load_satellite_tle(satellite, file)
+    cube = Orbital(satellite=satellite, line1=line1, line2=line2)
 
     dt = timedelta(seconds=dt)
 
@@ -118,7 +120,7 @@ def decceleration_path(coef, te, t0, acc):
     return path, te+dt, xe
 
 def generate_full_trajectory(satellite, time):
-    t, az, el = find_next_orbit(satellite, time, 1, 'tle.txt')
+    t, az, el = find_next_orbit(satellite, time, 1, tle_data_file)
 
     az_path, az_coef = fit_trajectory(t, az, 4)
     el_path, el_coef = fit_trajectory(t, el, 4)
