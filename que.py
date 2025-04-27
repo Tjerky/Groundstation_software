@@ -121,7 +121,11 @@ def list_que():
     with open('que.txt', 'r') as f:
         que = f.readlines()
 
+    tasks = ''
+
     for i in range(len(que)):
-        print('{index}: {item}'.format(index=i, item=que[i].replace(';', ' ')))
+        task = '{index}: {item}'.format(index=i, item=que[i].replace(';', ' '))
+        print(task)
+        tasks += '\t' + task + '\n'
 
-
+    return tasks
