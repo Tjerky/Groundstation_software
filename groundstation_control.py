@@ -1,7 +1,6 @@
 from que import *
 from logger import get_logger
 import pytz
-from parameters import satellites_file
 from update_tle_data import update_tle
 from database_utils import *
 
@@ -15,7 +14,7 @@ while True:
     if task == 'list':
         list_ids()
         tasks = list_que()
-        logger.info("Listing the current tasks: \n" + task)
+        logger.info("Listing the current tasks: \n" + tasks)
 
     elif task == 'delete':
         task = input('What task do you want to add (task/sat_from_db): ')

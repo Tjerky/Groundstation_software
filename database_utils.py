@@ -5,7 +5,7 @@ logger = get_logger()
 
 def validate_ids(satellite_ids):
     satellite_list = [sat_id.strip() for sat_id in satellite_ids.split(',') if sat_id.strip()]
-    valid_satellites = [sat_id for sat_id in satellite_list if sat_id.isdigit() and len(sat_id) == 7]
+    valid_satellites = [sat_id for sat_id in satellite_list if sat_id.isdigit() and len(sat_id) == 5]
     invalid_satellites = [sat_id for sat_id in satellite_list if sat_id not in valid_satellites]
 
     return valid_satellites, invalid_satellites
@@ -43,7 +43,7 @@ def delete_ids(valid_satellites):
 
 def list_ids():
     with open(satellites_file, 'r') as f:
-        satellite_ids = f.readlines()
+        satellite_ids = [line.strip() for line in f.readlines()]
 
     logger.info(f"Satellites in the database: \n\t{', '.join(satellite_ids)}")
     print(f"Satellites in the database: \n\t{', '.join(satellite_ids)}")

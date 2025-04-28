@@ -4,3 +4,17 @@
 2025-04-27 10:32:35 - Updated TLE data
 2025-04-27 10:33:46 - Updated TLE data
 2025-04-27 10:33:59 - Updated TLE data
+2025-04-28 10:24:48 - Updated TLE data
+2025-04-28 10:28:01 - Added satellites: 24876, 26360, 26407
+2025-04-28 10:28:05 - Updated TLE data
+2025-04-28 10:29:10 - Listing the current tasks: 
+list
+2025-04-28 10:33:27 - Deleted satellites: 25544, 26407
+2025-04-28 10:33:39 - Added satellites: 25544
+2025-04-28 10:33:45 - Updated TLE data
+2025-04-28 10:36:08 - Satellites in the database: 
+	24876, 26360, 25544
+2025-04-28 10:40:44 - Satellites in the database: 
+	24876, 26360, 25544
+2025-04-28 10:40:44 - Listing the current tasks: 
+	0: jfkakhfjks

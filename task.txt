@@ -15,3 +15,5 @@ should we add a task to track a satellite until it is manually stopped?
 
 we could make a task be immediately executed by typing 'now'
 e.g. When do you want to start calibrating? (YYYY-MM-DD hh:mm:ss): now
+
+map the id of the satellite to its name
