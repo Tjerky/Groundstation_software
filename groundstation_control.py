@@ -2,6 +2,8 @@ from que import *
 from logger import get_logger
 import pytz
 from parameters import satellites_file
+from update_tle_data import update_tle
+from database_utils import *
 
 logger = get_logger()
 
@@ -11,6 +13,7 @@ while True:
     task = input('What do you want to do (list/add/delete/exit): ')
 
     if task == 'list':
+        list_ids()
         tasks = list_que()
         logger.info("Listing the current tasks: \n" + task)
 
@@ -27,22 +30,14 @@ while True:
                 print('Index should be an integer')
 
         elif task == 'sat_from_db':
-            satellite_id = input('Enter the NORAD ID of the satellite to remove: ').strip()
+            satellite_ids = input('Enter the NORAD IDs of satellites you want to remove (comma-separated): ')
+            valid_satellites, invalid_satellites = validate_ids(satellite_ids)
+
+            if invalid_satellites:
+                print(f"Warning: These entries are invalid and will be skipped: {', '.join(invalid_satellites)}")
+            if valid_satellites:
+                delete_ids(valid_satellites)
             
-            with open(satellites_file, 'r') as f:
-                lines = f.readlines()
-
-            satellite_ids = [line.strip() for line in lines]
-
-            if satellite_id in satellite_ids:
-                updated_lines = [line for line in lines if line.strip() != satellite_id]
-                with open(satellites_file, 'w') as f:
-                    f.writelines(updated_lines)
-
-                logger.info(f'Satellite with NORAD ID {satellite_id} added to the database')
-            else:
-                logger.info(f'Satellite {satellite_id} not found in database.')
-                print(f'Satellite {satellite_id} not found in database.') 
 
     elif task == 'add':
         task = input('What task do you want to add (track/calibrate/sat_to_db): ')
@@ -79,13 +74,16 @@ while True:
             logger.info(f"Scheduled calibration at {begin}")
 
         elif task == 'sat_to_db':
-            satellite_id = input('Enter the NORAD ID of the satellite to add: ').strip()
-            
-            with open(satellites_file, 'a') as f:
-                f.write(satellite_id + '\n')
-            
-            logger.info(f'Satellite with NORAD ID {satellite_id} added to the database')
-            
+            satellite_ids = input('Enter the NORAD IDs of satellites you want to add (comma-separated): ')
+            valid_satellites, invalid_satellites = validate_ids(satellite_ids)
+
+            if invalid_satellites:
+                print(f"Warning: These entries are invalid and will be skipped: {', '.join(invalid_satellites)}")
+            if valid_satellites:
+                write_ids(valid_satellites)
+
+            update_tle()
+
         else:
             print('Please enter a valid task.')
 
