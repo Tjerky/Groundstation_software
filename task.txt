@@ -17,3 +17,7 @@ we could make a task be immediately executed by typing 'now'
 e.g. When do you want to start calibrating? (YYYY-MM-DD hh:mm:ss): now
 
 map the id of the satellite to its name
+
+find a way to transfer/write files wireless
+
+store the coordinates with a timestamp during the track in a string and then transfer it to a file

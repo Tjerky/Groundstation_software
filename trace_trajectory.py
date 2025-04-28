@@ -2,17 +2,17 @@ from stepper_control import make_step
 from time import time
 from logger import get_logger
 from parameters import *
+from pytz import UTC
+from datetime import datetime
 
 logger = get_logger()
 
-def trace_path(path, current_pos, t_end, microstep, make_step, dir):
+def trace_path(path, current_pos, t_end, microstep, make_step, angle_direction):
     t = time()
 
     degrees_per_step = 360/microstep
 
     while t < t_end:
-        logger.info(f"Current position ({dir.name}) - {current_pos}")
-
         t = time()
         dangle = path(t) - current_pos
 
@@ -20,10 +20,11 @@ def trace_path(path, current_pos, t_end, microstep, make_step, dir):
             make_step(dangle/abs(dangle))
 
             current_pos += degrees_per_step*(dangle/abs(dangle))
+            logger.info(f"Current position ({angle_direction.name}) - {current_pos}")
 
     return current_pos
 
-def trace_trajectory(trajectory, microstep, make_step, dir):
+def trace_trajectory(trajectory, microstep, make_step, angle_direction):
 
     current_pos = trajectory[0][1](trajectory[0][0])
 
@@ -31,7 +32,7 @@ def trace_trajectory(trajectory, microstep, make_step, dir):
         pass
 
     for i in range(len(trajectory) - 1):
-        current_pos = trace_path(trajectory[i][1], current_pos, trajectory[i+1][0], microstep, make_step, dir)
+        current_pos = trace_path(trajectory[i][1], current_pos, trajectory[i+1][0], microstep, make_step, angle_direction)
 
 def generate_make_step(stepper):
     def make_step(direction):
@@ -47,12 +48,12 @@ if __name__ == '__main__':
     def make_step(direction):
         steps.append([time(), direction])
 
-    from find_trajectory import generate_next_trajectory
+    from find_trajectory import generate_full_trajectory
 
-    trajectory = generate_next_trajectory('Delfi-N3xt', 1)
+    trajectory_az, trajectory_el = generate_full_trajectory('ISS (ZARYA)', datetime.now(tz=UTC))
 
-    print(trajectory)
+    print(trajectory_az)
 
-    trace_trajectory(trajectory, 10000, make_step)
+    trace_trajectory(trajectory_az, 10000, make_step, 1)
     print(steps)
 

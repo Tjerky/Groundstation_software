@@ -36,7 +36,6 @@ while True:
                 print(f"Warning: These entries are invalid and will be skipped: {', '.join(invalid_satellites)}")
             if valid_satellites:
                 delete_ids(valid_satellites)
-            
 
     elif task == 'add':
         task = input('What task do you want to add (track/calibrate/sat_to_db): ')

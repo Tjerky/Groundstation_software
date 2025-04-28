@@ -18,3 +18,21 @@ list
 	24876, 26360, 25544
 2025-04-28 10:40:44 - Listing the current tasks: 
 	0: jfkakhfjks
+2025-04-28 16:18:01 - Satellite Delfi-N3xt not in database
+2025-04-28 17:36:11 - Satellite Delfi-N3xt not in database
+2025-04-28 17:37:32 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 17:40:57 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 17:41:10 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 17:41:53 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 17:42:58 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 17:47:12 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 17:47:41 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 17:48:50 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 18:28:19 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 18:53:30 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 18:54:17 - Loaded TLE data for ISS (ZARYA) successfully
+2025-04-28 19:14:58 - Satellites in the database: 
+	24876, 26360, 25544
+2025-04-28 19:14:58 - Listing the current tasks: 
+	0: jfkakhfjks
+

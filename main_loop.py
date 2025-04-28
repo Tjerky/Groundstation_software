@@ -9,12 +9,14 @@ from threading import Thread
 from time import sleep
 from logger import get_logger
 from update_tle_data import update_tle
+import pytz
 
 logger = get_logger()
-logger.info('Program started')
-logger.info('Tracking satellites: ...')
+logger.info('Groundstation control started')
 
 dt = timedelta(seconds=interval)
+
+local_tz = pytz.timezone('Europe/Amsterdam')
 
 last_updated = datetime.min
 
@@ -31,7 +33,7 @@ stepper_el.set_movement_abs_rel(MovementAbsRel.ABSOLUTE)
 make_el_step = generate_make_step(stepper_el)
 
 while True:
-    now = datetime.now(tz=UTC)
+    now = datetime.now(tz=local_tz)
 
     if now - last_updated > timedelta(days=update_time):
         update_tle()

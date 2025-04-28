@@ -4,10 +4,15 @@ from datetime import timedelta
 import numpy as np
 from parameters import groundstation_location, tle_data_file
 from update_tle_data import load_satellite_tle
+import pytz
 
-def find_next_orbit(satellite, dt, time=datetime.utcnow(), file=None):
+local_tz = pytz.timezone('Europe/Amsterdam')
+
+def find_next_orbit(satellite, dt, time=datetime.now(tz=local_tz), file=None):
     _, line1, line2 = load_satellite_tle(satellite, file)
     cube = Orbital(satellite=satellite, line1=line1, line2=line2)
+
+    time = time.astimezone(pytz.UTC)
 
     dt = timedelta(seconds=dt)
 
@@ -27,8 +32,7 @@ def find_next_orbit(satellite, dt, time=datetime.utcnow(), file=None):
     while not underhorizon:
         az, el = cube.get_observer_look(time, *groundstation_location)
 
-        # append a time, position. Time is converted to local time
-        trajectory_time.append(time)
+        trajectory_time.append(time.astimezone(local_tz).timestamp())
         trajectory_az.append(az)
         trajectory_el.append(el)
 
@@ -39,7 +43,7 @@ def find_next_orbit(satellite, dt, time=datetime.utcnow(), file=None):
     return trajectory_time, trajectory_az, trajectory_el
 
 def fit_trajectory(t, x, n):
-
+    
     t0 = t[0]
 
     A = np.zeros((len(t), n+1))
@@ -57,18 +61,6 @@ def fit_trajectory(t, x, n):
             x += coef[i]*(t-t0)**i
 
         return x
-
-    vel = np.zeros_like(t)
-    acc = np.zeros_like(t)
-
-    for i in range(n+1):
-        if i > 0:
-            vel += i*coef[i]*t**(i-1)
-        if i > 1:
-            acc += (i-1)*i*coef[i]*t**(i-2)
-
-    max_vel = np.max(abs(vel))
-    max_acc = np.max(abs(acc))
 
     return fit, coef
 
@@ -120,10 +112,10 @@ def decceleration_path(coef, te, t0, acc):
     return path, te+dt, xe
 
 def generate_full_trajectory(satellite, time):
-    t, az, el = find_next_orbit(satellite, time, 1, tle_data_file)
+    t, az, el = find_next_orbit(satellite, 1, time, tle_data_file)
 
-    az_path, az_coef = fit_trajectory(t, az, 4)
-    el_path, el_coef = fit_trajectory(t, el, 4)
+    az_path, az_coef = fit_trajectory(np.array(t), np.array(az), 4)
+    el_path, el_coef = fit_trajectory(np.array(t), np.array(el), 4)
 
     t0_track = t[0]
     te_track = t[-1]
@@ -131,8 +123,8 @@ def generate_full_trajectory(satellite, time):
     az_acceleration, t0_az_acceleration, az_0 = acceleration_path(az_coef, t0_track, 1)
     el_acceleration, t0_el_acceleration, el_0 = acceleration_path(el_coef, t0_track, 1)
 
-    az_deceleration, te_az_deceleration, az_e = acceleration_path(az_coef, te_track, 1)
-    el_deceleration, te_el_deceleration, el_e = acceleration_path(el_coef, te_track, 1)
+    az_deceleration, te_az_deceleration, az_e = decceleration_path(az_coef, te_track, t0_track, 1)
+    el_deceleration, te_el_deceleration, el_e = decceleration_path(el_coef, te_track, t0_track, 1)
 
     full_az_trajectory = [[t0_az_acceleration, az_acceleration],
                           [t0_track, az_path],
