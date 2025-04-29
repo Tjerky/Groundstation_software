@@ -45,7 +45,10 @@ while True:
 
             begin = input('From what datetime should we look for the next pass? (YYYY-MM-DD hh:mm:ss) : ')
 
-            begin = datetime.strptime(begin, '%Y-%m-%d %H:%M:%S')
+            if begin == 'now':
+                begin = datetime.now() + timedelta(seconds=30) 
+            else:
+                begin = datetime.strptime(begin, '%Y-%m-%d %H:%M:%S')
 
             begin = pytz.timezone('Europe/Amsterdam').localize(begin)
 
@@ -53,13 +56,16 @@ while True:
 
             command = f'track {satellite}'
 
-            add_command(begin, end, command)
-            logger.info(f'Scheduled tracking of {satellite} to begin at {begin}.')
+            if add_command(begin, end, command):
+                logger.info(f"Scheduled calibration at {begin}")
 
         elif task == 'calibrate':
             begin = input('When do you want to start calibrating? (YYYY-MM-DD hh:mm:ss): ')
 
-            begin = datetime.strptime(begin, '%Y-%m-%d %H:%M:%S')
+            if begin == 'now':
+                begin = datetime.now() + timedelta(seconds=30) 
+            else:
+                begin = datetime.strptime(begin, '%Y-%m-%d %H:%M:%S')
 
             begin = pytz.timezone('Europe/Amsterdam').localize(begin)
 
@@ -68,8 +74,8 @@ while True:
 
             command = 'calibrate'
 
-            add_command(begin, end, command)
-            logger.info(f"Scheduled calibration at {begin}")
+            if add_command(begin, end, command):
+                logger.info(f"Scheduled calibration at {begin}")
 
         elif task == 'sat_to_db':
             satellite_ids = input('Enter the NORAD IDs of satellites you want to add (comma-separated): ')

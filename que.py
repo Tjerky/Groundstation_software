@@ -71,10 +71,13 @@ def add_command(begin, end, command):
     else:
         logger.info('Command could not be added to que, because another command is already added in that time.')
         print('Command could not be added to que, because another command is already added in that time.')
+        return False
         #raise BaseException('Command could not be added to que, because another command is already added in that time.')
 
     with open('que.txt', 'w') as f:
         f.writelines(que)
+    
+    return True
 
 def read_next_command():
     now = datetime.now(tz=pytz.UTC)
