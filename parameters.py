@@ -1,4 +1,3 @@
-from enum import Enum
 from pathlib import Path
 
 groundstation_location = (51.446, 5.485, 0)
@@ -8,7 +7,4 @@ update_time = 1 # in days
 
 tle_data_file = Path('./tle_data/tle.txt')
 satellites_file = Path('./tle_data/satellites.txt')
-
-class Direction(Enum):
-    AZ = 1
-    EL = 2
+log_file = Path('./log_data/log.txt')

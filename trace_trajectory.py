@@ -1,11 +1,12 @@
 from stepper_control import make_step
 from time import time
-from logger import get_logger
+from logger import get_logger_without_formatter, format_position
 from parameters import *
 from pytz import UTC
 from datetime import datetime
+from shared import *
 
-logger = get_logger()
+logger = get_logger_without_formatter()
 
 def trace_path(path, current_pos, t_end, microstep, make_step, angle_direction):
     t = time()
@@ -20,7 +21,8 @@ def trace_path(path, current_pos, t_end, microstep, make_step, angle_direction):
             make_step(dangle/abs(dangle))
 
             current_pos += degrees_per_step*(dangle/abs(dangle))
-            logger.info(f"Current position ({angle_direction.name}) - {current_pos}")
+            with output_lock:
+                shared_output.write(format_position(current_pos, angle_direction))
 
     return current_pos
 
@@ -47,6 +49,7 @@ if __name__ == '__main__':
     steps = []
     def make_step(direction):
         steps.append([time(), direction])
+        print(f'{time()}')
 
     from find_trajectory import generate_full_trajectory
 

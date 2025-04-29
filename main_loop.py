@@ -61,14 +61,16 @@ while True:
             stepper_el.wait_until_steps_done()
 
             # Execute the task, waiting is included in trace_trajectory
-            az_trace_thread = Thread(target=trace_trajectory, args=(az_trajectory, microstep, make_az_step, Direction.AZ))
-            el_trace_thread = Thread(target=trace_trajectory, args=(el_trajectory, microstep, make_el_step, Direction.EL))
+            az_trace_thread = Thread(target=trace_trajectory, args=(az_trajectory, microstep, make_az_step, 'AZ'))
+            el_trace_thread = Thread(target=trace_trajectory, args=(el_trajectory, microstep, make_el_step, 'EL'))
 
+            reset_shared_output()
             az_trace_thread.start()
             el_trace_thread.start()
 
             az_trace_thread.join()
             el_trace_thread.join()
+            logger.info(shared_output.getvalue())
 
             logger.info(f"Satellite {satellite} has been successfully tracked")
 

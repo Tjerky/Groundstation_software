@@ -11,7 +11,7 @@ implement the motors library
 
 Questions?
 
-should we add a task to track a satellite until it is manually stopped?
+should we add a task to track a satellite until it is manually stopped? (e.g. track continuously)
 
 we could make a task be immediately executed by typing 'now'
 e.g. When do you want to start calibrating? (YYYY-MM-DD hh:mm:ss): now
