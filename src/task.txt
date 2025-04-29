@@ -9,15 +9,21 @@ update the TLE data - check when was the file last updated (e.g. every day)
 implement the motors library
 
 
-Questions?
-
-should we add a task to track a satellite until it is manually stopped? (e.g. track continuously)
+add a task to track a satellite until it is manually stopped? (e.g. track continuously)
 
 we could make a task be immediately executed by typing 'now'
 e.g. When do you want to start calibrating? (YYYY-MM-DD hh:mm:ss): now
 
 map the id of the satellite to its name
 
-find a way to transfer/write files wireless
+find a way to transfer/write files wireless - we'll probably use shh
 
 store the coordinates with a timestamp during the track in a string and then transfer it to a file
+
+compute the trajectory on the paddock PC and send it (find_trajectory)
+run the CLI on the paddock and update the que file on the rpi (groundstation_control, que)
+update the tle data from the paddock (update_tle)
+
+group the files into folders
+
+write a documentation

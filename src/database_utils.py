@@ -4,7 +4,7 @@ from parameters import satellites_file
 logger = get_logger()
 
 def validate_ids(satellite_ids):
-    satellite_list = [sat_id.strip() for sat_id in satellite_ids.split(',') if sat_id.strip()]
+    satellite_list = [sat_id.strip() for sat_id in satellite_ids.split(',')]
     valid_satellites = [sat_id for sat_id in satellite_list if sat_id.isdigit() and (len(sat_id) == 5 or len(sat_id) == 6)]
     invalid_satellites = [sat_id for sat_id in satellite_list if sat_id not in valid_satellites]
 

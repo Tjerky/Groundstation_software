@@ -1,12 +1,10 @@
 from stepper_control import make_step
 from time import time
-from logger import get_logger_without_formatter, format_position
+from logger import format_position
 from parameters import *
 from pytz import UTC
 from datetime import datetime
 from shared import *
-
-logger = get_logger_without_formatter()
 
 def trace_path(path, current_pos, t_end, microstep, make_step, angle_direction):
     t = time()
