@@ -19,6 +19,7 @@ def trace_path(path, current_pos, t_end, microstep, make_step, angle_direction):
             make_step(dangle/abs(dangle))
 
             current_pos += degrees_per_step*(dangle/abs(dangle))
+            
             with output_lock:
                 shared_output.write(format_position(current_pos, angle_direction))
 

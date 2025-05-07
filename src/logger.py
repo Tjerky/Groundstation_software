@@ -1,49 +1,47 @@
 import logging
-import os
 from datetime import datetime
 import pytz
-from parameters import log_file
+from parameters import smb_server, smb_user, smb_password, smb_path
+from smbclient import open_file, register_session
 
-def get_logger(name="GroundStationLogger", logfile=log_file, level=logging.INFO):
-    logger = logging.getLogger(name)
-    logger.setLevel(level)
+# Define a custom logging handler
+class SMBFileHandler(logging.Handler):
+    def __init__(self, smb_path, mode='a'):
+        super().__init__()
+        self.smb_path = smb_path
+        self.mode = mode
 
-    if not logger.hasHandlers():
-        # Create directory if needed
-        log_dir = os.path.dirname(logfile)
-        if log_dir and not os.path.exists(log_dir):
-            os.makedirs(log_dir)
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            with open_file(self.smb_path, mode=self.mode) as f:
+                f.write(msg + '\n')
+        except Exception:
+            self.handleError(record)
 
-        file_handler = logging.FileHandler(logfile)
-        file_handler.setLevel(level)
+_logger = None
 
-        # Formatter
+def get_logger():
+    global _logger
+    if _logger is None:
+        # Register the SMB session only once
+        register_session(smb_server, username=smb_user, password=smb_password)
+
+        logger = logging.getLogger("GlobalLogger")
+        logger.setLevel(logging.INFO)
+
+        smb_handler = SMBFileHandler(smb_path)
+
         formatter = logging.Formatter(
-            '%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
+            '%(asctime)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
         )
-        file_handler.setFormatter(formatter)
+        smb_handler.setFormatter(formatter)
 
-        logger.addHandler(file_handler)
+        logger.addHandler(smb_handler)
+        _logger = logger
 
-    return logger
-
-def get_logger_without_formatter(name="GroundStationLogger1", logfile=log_file, level=logging.INFO):
-    logger = logging.getLogger(name)
-    logger.setLevel(level)
-
-    if not logger.hasHandlers():
-        # Create directory if needed
-        log_dir = os.path.dirname(logfile)
-        if log_dir and not os.path.exists(log_dir):
-            os.makedirs(log_dir)
-
-        file_handler = logging.FileHandler(logfile)
-        file_handler.setLevel(level)
-
-        logger.addHandler(file_handler)
-
-    return logger
-
+    return _logger
 
 def format_position(position, angle_direction):
     now = datetime.now(tz=pytz.timezone('Europe/Amsterdam'))

@@ -20,10 +20,12 @@ find a way to transfer/write files wireless - we'll probably use shh
 
 store the coordinates with a timestamp during the track in a string and then transfer it to a file
 
-compute the trajectory on the paddock PC and send it (find_trajectory)
-run the CLI on the paddock and update the que file on the rpi (groundstation_control, que)
+compute the trajectory on the paddock PC and send it (find_trajectory) *
 update the tle data from the paddock (update_tle)
+run the CLI on the paddock and update the que file on the rpi (groundstation_control, que)
 
 group the files into folders
 
 write a documentation
+
+develop a testing plan

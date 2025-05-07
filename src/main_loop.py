@@ -7,12 +7,11 @@ from parameters import *
 from cl57t_raspberry_pi_stepper_drive.CL57TStepperDriver import *
 from threading import Thread
 from time import sleep
-from logger import get_logger, get_logger_without_formatter
+from logger import get_logger
 from update_tle_data import update_tle
 import pytz
 
 logger = get_logger()
-logger_without_format = get_logger_without_formatter()
 logger.info('Groundstation control started')
 
 dt = timedelta(seconds=interval)
@@ -71,7 +70,8 @@ while True:
 
             az_trace_thread.join()
             el_trace_thread.join()
-            logger_without_format.info(shared_output.getvalue())
+            
+            logger.info(shared_output.getvalue())
 
             logger.info(f"Satellite {satellite} has been successfully tracked")
 
